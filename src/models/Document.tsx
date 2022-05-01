@@ -1,6 +1,6 @@
-import { jsx } from '@emotion/react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from 'react';
 import { SimpleTextDocument } from '../fragments/document/SimpleTextDocument';
-import JSX = jsx.JSX;
 
 export interface Document {
 	_id: string;
@@ -14,8 +14,8 @@ export interface Document {
 export interface DeserializedDocument {
 	source: Document;
 
-	render: (renderContext?: any) => Promise<JSX.Element[]>;
-	renderSummary: (renderContext?: any) => Promise<JSX.Element[]>;
+	render: (renderContext?: any) => Promise<JSX.Element>;
+	renderSummary: (renderContext?: any) => Promise<JSX.Element>;
 }
 
 export async function compileDocument(doc: Document): Promise<DeserializedDocument> {

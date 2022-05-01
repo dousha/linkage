@@ -1,8 +1,8 @@
-import { Card, CardActions, CardContent, Grid, IconButton, Tooltip, Typography } from '@mui/material';
-import { Document } from '../models/Document';
+import { Card, CardActions, CardContent, Grid, IconButton, Skeleton, Tooltip, Typography } from '@mui/material';
+import { compileDocument, Document } from '../models/Document';
 import { Cancel, Check, Delete, Edit, Link, Share } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const moment = require('moment/min/moment-with-locales');
 
@@ -16,15 +16,32 @@ export interface SummaryCardProps {
 export default function SummaryCard(props: SummaryCardProps) {
 	const {t, i18n} = useTranslation();
 	const [isDeleting, setDeleting] = useState(false);
+	const [isRendering, setRendering] = useState(true);
+	const [isRenderSuccessful, setRenderSuccessful] = useState(true);
+	const [renderResult, setRenderResult] = useState(<></>);
+
+	useEffect(() => {
+		compileDocument(props.document).then(doc => {
+			doc.renderSummary(null).then(result => {
+				setRenderResult(result);
+				setRenderSuccessful(true);
+			}).catch(e => {
+				setRenderSuccessful(false);
+			}).finally(() => {
+				setRendering(false);
+			});
+		}).catch(e => {
+			setRendering(false);
+			setRenderSuccessful(false);
+		});
+	}, [isRendering, isRenderSuccessful, props.document])
 
 	return <>
 		<Card>
 			<CardContent>
 				<Grid container direction={'column'} alignItems={'flex-start'} spacing={1}>
 					<Grid item>
-						<Typography>
-							{props.document.value}
-						</Typography>
+						{isRendering ? (<Skeleton />) : (isRenderSuccessful ? renderResult : (<><Typography>RenderError</Typography></>))}
 					</Grid>
 					<Grid item>
 						<Grid item>

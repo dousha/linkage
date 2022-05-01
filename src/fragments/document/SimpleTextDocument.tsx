@@ -1,17 +1,22 @@
-import { jsx } from '@emotion/react';
+import React from 'react';
 import { DeserializedDocument, Document } from '../../models/Document';
+import { Typography } from '@mui/material';
 
 export class SimpleTextDocument implements DeserializedDocument {
 	constructor(doc: Document) {
 		this.source = doc;
 	}
 
-	async render(renderContext: any): Promise<jsx.JSX.Element[]> {
-		return [];
+	async render(): Promise<JSX.Element> {
+		return <>
+			<Typography>{this.source.value}</Typography>
+		</>;
 	}
 
-	async renderSummary(renderContext: any): Promise<jsx.JSX.Element[]> {
-		return [];
+	async renderSummary(): Promise<JSX.Element> {
+		return <>
+			<Typography>{this.source.value}</Typography>
+		</>;
 	}
 
 	readonly source: Document;
