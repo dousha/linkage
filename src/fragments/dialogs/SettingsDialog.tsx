@@ -11,8 +11,9 @@ import {
 	Typography,
 } from '@mui/material';
 import { Settings } from '@mui/icons-material';
-import DocumentStashInstance from '../models/DocumentStash';
-import NotificationContext from './NotificationContext';
+import DocumentStashInstance from '../../models/DocumentStash';
+import NotificationContext from '../NotificationContext';
+import { useTranslation } from 'react-i18next';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -43,6 +44,8 @@ export default function SettingsDialog() {
 		handleClose();
 	};
 
+	const { t } = useTranslation();
+
 	return (<>
 		<IconButton onClick={handleOpen} edge={'end'} size={'large'} color={'inherit'} aria-label={'settings'}>
 			<Settings/>
@@ -53,32 +56,32 @@ export default function SettingsDialog() {
 					<Grid container direction={'column'} spacing={4}>
 						<Grid item>
 							<Typography variant={'h5'}>
-								Settings
+								{t('settingDialogTitle')}
 							</Typography>
 						</Grid>
 						<Grid item>
 							<FormGroup>
 								<FormControlLabel
 									control={<Switch checked={isEnabled} onChange={e => setEnabled(e.target.checked)}/>}
-									label={'Enable sync'}/>
+									label={t('settingDialogTextEnableSync')}/>
 							</FormGroup>
 						</Grid>
 						<Grid item>
 							<FormGroup>
-								<FormControlLabel control={<Switch disabled={!isEnabled} checked={isSecure} onChange={e => setSecure(e.target.checked)} />} label={'Use secure connection'} />
+								<FormControlLabel control={<Switch disabled={!isEnabled} checked={isSecure} onChange={e => setSecure(e.target.checked)} />} label={t('settingDialogTextSecureConnection')} />
 							</FormGroup>
 						</Grid>
 						<Grid item>
-							<TextField id={'input-remote'} label={'Remote Domain'}
+							<TextField id={'input-remote'} label={t('settingDialogLabelDomain')}
 									   placeholder={'my-couch-server.example'} value={remote}
 									   onChange={e => setRemote(e.target.value)} disabled={!isEnabled} fullWidth/>
 						</Grid>
 						<Grid item>
-							<TextField id={'input-username'} label={'Username'} disabled={!isEnabled} value={username}
+							<TextField id={'input-username'} label={t('settingDialogLabelUsername')} disabled={!isEnabled} value={username}
 									   onChange={e => setUsername(e.target.value)} fullWidth/>
 						</Grid>
 						<Grid item>
-							<TextField id={'input-password'} label={'Password'} type={'password'} disabled={!isEnabled}
+							<TextField id={'input-password'} label={t('settingDialogLabelPassword')} type={'password'} disabled={!isEnabled}
 									   value={password} onChange={e => setPassword(e.target.value)} fullWidth/>
 						</Grid>
 						<Grid item>
@@ -86,13 +89,13 @@ export default function SettingsDialog() {
 								<NotificationContext.Consumer>
 									{value => <Button color={'primary'} onClick={() => saveSettings(value)}>
 										<Typography>
-											Save
+											{t('settingDialogButtonSave')}
 										</Typography>
 									</Button>}
 								</NotificationContext.Consumer>
 								<Button color={'secondary'} onClick={handleClose}>
 									<Typography>
-										Cancel
+										{t('settingDialogButtonCancel')}
 									</Typography>
 								</Button>
 							</Grid>

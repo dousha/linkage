@@ -99,6 +99,17 @@ class DocumentStash {
 			.map(x => x as Document);
 	}
 
+	public async deleteDocument(id: string): Promise<boolean> {
+		try {
+			const doc = await this.getDocument(id);
+			await this.db.remove(doc);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	}
+
+
 	public async init() {
 		await this.db.createIndex({
 			index: {

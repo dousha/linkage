@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import './App.css';
 import LandingPage from './pages/LandingPage';
 import NotificationContext from './fragments/NotificationContext';
@@ -12,28 +12,30 @@ function App() {
 	const [networkState, setNetworkState] = useState(0);
 
 	return (
-		<div className="App">
-			<NotificationContext.Provider value={{
-				open: notificationOpened,
-				msg: notificationValue,
-				notify: xs => {
-					setNotificationOpened(true);
-					setNotificationValue(xs);
-				},
-				close: () => {
-					setNotificationOpened(false);
-				},
-			}}>
-				<NetworkStateContext.Provider value={{
-					state: networkState,
-					setState: x => setNetworkState(x)
+		<Suspense fallback={'Loading'}>
+			<div className="App">
+				<NotificationContext.Provider value={{
+					open: notificationOpened,
+					msg: notificationValue,
+					notify: xs => {
+						setNotificationOpened(true);
+						setNotificationValue(xs);
+					},
+					close: () => {
+						setNotificationOpened(false);
+					},
 				}}>
-					<HeadBar/>
-					<LandingPage/>
-					<NotificationBox/>
-				</NetworkStateContext.Provider>
-			</NotificationContext.Provider>
-		</div>
+					<NetworkStateContext.Provider value={{
+						state: networkState,
+						setState: x => setNetworkState(x)
+					}}>
+						<HeadBar/>
+						<LandingPage/>
+						<NotificationBox/>
+					</NetworkStateContext.Provider>
+				</NotificationContext.Provider>
+			</div>
+		</Suspense>
 	);
 }
 
