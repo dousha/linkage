@@ -102,10 +102,13 @@ async function insertDocument(stuff: string, id?: string): Promise<string> {
 		}
 	} else {
 		// TODO
+		// multiline document can be a bit tricky to parse
+		// we can just do text/plain for now
+		const response = await insertPlainTextDocument(stuff, id);
+		if (response.ok) {
+			return response.id;
+		} else {
+			throw new Error('insert failure');
+		}
 	}
-	return '';
-}
-
-export async function deleteDocument(id: string) {
-	//
 }

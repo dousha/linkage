@@ -14,9 +14,18 @@ export class SimpleTextDocument implements DeserializedDocument {
 	}
 
 	async renderSummary(): Promise<JSX.Element> {
-		return <>
-			<Typography>{this.source.value}</Typography>
-		</>;
+		const firstParagraph = this.source.value.split('\n\n').pop();
+		if (firstParagraph) {
+			let content;
+			if (firstParagraph.length > 150) {
+				content = `${firstParagraph.substring(0, 147)}...`;
+			} else {
+				content = firstParagraph;
+			}
+			return <><Typography>{content}</Typography></>;
+		} else {
+			return <><Typography>(???)</Typography></>;
+		}
 	}
 
 	readonly source: Document;

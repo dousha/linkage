@@ -38,7 +38,7 @@ export default function LandingPage() {
 
 	useEffect(() => {
 		loadRecentDocuments();
-	}, [isBusy, isEmpty]);
+	}, [isBusy, isEmpty, editingId]);
 
 	const deleteDocument = (id: string) => {
 		setBusy(true);
