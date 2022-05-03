@@ -6,7 +6,8 @@ export default function NotificationBox() {
 	return (<>
 		<NotificationContext.Consumer>
 			{
-				value => <Snackbar open={value.open} message={value.msg} autoHideDuration={3000} onClose={() => value.close()}/>
+				value => <Snackbar open={value.open} message={value.msg} autoHideDuration={3000}
+								   onClose={() => value.close()}/>
 			}
 		</NotificationContext.Consumer>
 	</>);

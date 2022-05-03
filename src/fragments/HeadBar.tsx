@@ -10,7 +10,7 @@ import { runAtLeastFor } from '../util/Utils';
 import { useTranslation } from 'react-i18next';
 
 export default function HeadBar() {
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 
 	return <NetworkStateContext.Consumer>
 		{
@@ -22,21 +22,21 @@ export default function HeadBar() {
 					<Box sx={{width: '1rem'}}/>
 					{
 						DocumentStashInstance.getLocalSettings().sync ? (
-						value.state > 0 ? (value.state === 1 ? <CircularProgress color={'inherit'}/> : null) : (
-							<NotificationContext.Consumer>
-								{
-									x => <IconButton color={'inherit'} onClick={() => {
-										value.setState(1);
-										runAtLeastFor(800, () => DocumentStashInstance.sync()).then(() => {
-											x.notify(t('toastSyncSuccess'));
-										}).catch(e => {
-											console.error(e);
-											x.notify(t('toastSyncFailed'));
-										}).finally(() => value.setState(0));
+							value.state > 0 ? (value.state === 1 ? <CircularProgress color={'inherit'}/> : null) : (
+								<NotificationContext.Consumer>
+									{
+										x => <IconButton color={'inherit'} onClick={() => {
+											value.setState(1);
+											runAtLeastFor(800, () => DocumentStashInstance.sync()).then(() => {
+												x.notify(t('toastSyncSuccess'));
+											}).catch(e => {
+												console.error(e);
+												x.notify(t('toastSyncFailed'));
+											}).finally(() => value.setState(0));
+										}
+										}><Refresh/></IconButton>
 									}
-									}><Refresh/></IconButton>
-								}
-							</NotificationContext.Consumer>
+								</NotificationContext.Consumer>
 							)
 						) : null
 					}

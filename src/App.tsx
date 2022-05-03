@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import './App.css';
 import LandingPage from './pages/LandingPage';
 import NotificationContext from './fragments/NotificationContext';
@@ -27,7 +27,7 @@ function App() {
 				}}>
 					<NetworkStateContext.Provider value={{
 						state: networkState,
-						setState: x => setNetworkState(x)
+						setState: x => setNetworkState(x),
 					}}>
 						<HeadBar/>
 						<LandingPage/>

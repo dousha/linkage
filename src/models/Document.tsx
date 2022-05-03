@@ -16,6 +16,7 @@ export interface DeserializedDocument {
 
 	render: (renderContext?: any) => Promise<JSX.Element>;
 	renderSummary: (renderContext?: any) => Promise<JSX.Element>;
+	renderToolStrip: (renderContext?: any) => JSX.Element;
 }
 
 export async function compileDocument(doc: Document): Promise<DeserializedDocument> {

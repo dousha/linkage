@@ -1,6 +1,6 @@
 import React from 'react';
 import { DeserializedDocument, Document } from '../../models/Document';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 export class SimpleTextDocument implements DeserializedDocument {
 	constructor(doc: Document) {
@@ -14,18 +14,34 @@ export class SimpleTextDocument implements DeserializedDocument {
 	}
 
 	async renderSummary(): Promise<JSX.Element> {
-		const firstParagraph = this.source.value.split('\n\n').pop();
+		const paragraphs = this.source.value.split('\n\n');
+		const firstParagraph = paragraphs[0];
 		if (firstParagraph) {
 			let content;
 			if (firstParagraph.length > 150) {
 				content = `${firstParagraph.substring(0, 147)}...`;
 			} else {
-				content = firstParagraph;
+				if (paragraphs.length > 1) {
+					content = <Grid container direction={'column'} alignItems={'flex-start'}>
+						<Grid item>
+							<Typography>{firstParagraph}</Typography>
+						</Grid>
+						<Grid item>
+							<Typography>[...]</Typography>
+						</Grid>
+					</Grid>;
+				} else {
+					content = <Typography>{firstParagraph}</Typography>;
+				}
 			}
-			return <><Typography>{content}</Typography></>;
+			return <>{content}</>;
 		} else {
 			return <><Typography>(???)</Typography></>;
 		}
+	}
+
+	renderToolStrip(renderContext: any): JSX.Element {
+		return <></>;
 	}
 
 	readonly source: Document;

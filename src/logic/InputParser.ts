@@ -1,8 +1,9 @@
 import { Document } from '../models/Document';
 import DocumentStashInstance from '../models/DocumentStash';
+import DocumentStash from '../models/DocumentStash';
 import { generateId } from '../util/Utils';
 import { Relation } from '../models/Relation';
-import DocumentStash from '../models/DocumentStash';
+import { ExternalReference } from '../models/ExternalReference';
 
 export async function commitInput(xs: string, id?: string): Promise<Array<Document> | string> {
 	const trimmedInput = xs.trim();
@@ -36,7 +37,7 @@ async function insertRelation(from: string, to: string) {
 		from: from,
 		to: to,
 		creationTime: Date.now(),
-		updateTime: Date.now()
+		updateTime: Date.now(),
 	};
 	return DocumentStash.insertDocument(rel);
 }
@@ -59,7 +60,7 @@ async function insertPlainTextDocument(content: string, id?: string) {
 			type: 'text',
 			value: content,
 			creationTime: Date.now(),
-			updateTime: Date.now()
+			updateTime: Date.now(),
 		};
 	}
 	return DocumentStashInstance.insertDocument(doc);
@@ -111,4 +112,9 @@ async function insertDocument(stuff: string, id?: string): Promise<string> {
 			throw new Error('insert failure');
 		}
 	}
+}
+
+export async function insertExternalReference(doc: ExternalReference): Promise<boolean> {
+	const response = await DocumentStashInstance.insertDocument(doc);
+	return !!response.ok;
 }

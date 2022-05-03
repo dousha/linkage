@@ -1,6 +1,6 @@
 import { Card, CardActions, CardContent, Grid, IconButton, Skeleton, Tooltip, Typography } from '@mui/material';
-import { compileDocument, Document } from '../models/Document';
-import { Cancel, Check, Delete, Edit, Link, Share } from '@mui/icons-material';
+import { compileDocument, Document } from '../../models/Document';
+import { Cancel, Check, Delete, Edit, Link, OpenInNew, Share } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 
@@ -19,9 +19,11 @@ export default function SummaryCard(props: SummaryCardProps) {
 	const [isRendering, setRendering] = useState(true);
 	const [isRenderSuccessful, setRenderSuccessful] = useState(true);
 	const [renderResult, setRenderResult] = useState(<></>);
+	const [toolStrip, setToolStrip] = useState(<></>);
 
 	useEffect(() => {
 		compileDocument(props.document).then(doc => {
+			setToolStrip(doc.renderToolStrip(null));
 			doc.renderSummary(null).then(result => {
 				setRenderResult(result);
 				setRenderSuccessful(true);
@@ -34,14 +36,15 @@ export default function SummaryCard(props: SummaryCardProps) {
 			setRendering(false);
 			setRenderSuccessful(false);
 		});
-	}, [isRendering, isRenderSuccessful, props.document])
+	}, [isRendering, isRenderSuccessful, props.document]);
 
 	return <>
 		<Card>
 			<CardContent>
 				<Grid container direction={'column'} alignItems={'flex-start'} spacing={1}>
 					<Grid item>
-						{isRendering ? (<Skeleton />) : (isRenderSuccessful ? renderResult : (<><Typography>RenderError</Typography></>))}
+						{isRendering ? (<Skeleton/>) : (isRenderSuccessful ? renderResult : (<>
+							<Typography>RenderError</Typography></>))}
 					</Grid>
 					<Grid item>
 						<Grid item>
@@ -56,6 +59,14 @@ export default function SummaryCard(props: SummaryCardProps) {
 			<CardActions>
 				<Grid container direction={'row-reverse'}>
 					{isDeleting ? (<></>) : (<>
+						<Grid item>
+							<Tooltip title={t('tooltipOpen')}>
+								<IconButton onClick={() => {
+								}}>
+									<OpenInNew/>
+								</IconButton>
+							</Tooltip>
+						</Grid>
 						<Grid item>
 							<Tooltip title={t('tooltipEdit')}>
 								<IconButton onClick={() => props.tryLoadEntry(props.document._id)}>
@@ -77,6 +88,7 @@ export default function SummaryCard(props: SummaryCardProps) {
 								</IconButton>
 							</Tooltip>
 						</Grid>
+						{toolStrip}
 						<Grid item xs/>
 					</>)}
 					{isDeleting ? (<>

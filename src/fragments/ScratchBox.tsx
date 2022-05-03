@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Grid, IconButton, styled, TextField, Tooltip, Typography } from '@mui/material';
-import { Book, Clear, Upload } from '@mui/icons-material';
+import { Book, Clear, FileOpen } from '@mui/icons-material';
 import { commitInput } from '../logic/InputParser';
 import { runAtLeastFor } from '../util/Utils';
 import DocumentStashInstance from '../models/DocumentStash';
 import { useTranslation } from 'react-i18next';
+import ResourceAdditionDialog from './dialogs/ResourceAdditionDialog';
 
 const MonospacedEditor = styled(TextField)({
 	'& .MuiInputBase-input': {
@@ -25,7 +26,7 @@ export default function ScratchBox(props: ScratchBoxProps) {
 	const [canCommit, setCanCommit] = useState(false);
 	const [isCommitting, setCommitting] = useState(false);
 
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 
 	useEffect(() => {
 		if (props.editingId) {
@@ -64,7 +65,7 @@ export default function ScratchBox(props: ScratchBoxProps) {
 								if (typeof v === 'string') {
 									props.setEditingId(v);
 								} else {
-									// document query result
+									// TODO: document query result
 								}
 							})
 							.catch(e => {
@@ -80,9 +81,12 @@ export default function ScratchBox(props: ScratchBoxProps) {
 				<Grid item>
 					<Tooltip title={t('tooltipUpload')}>
 						<IconButton>
-							<Upload/>
+							<FileOpen/>
 						</IconButton>
 					</Tooltip>
+				</Grid>
+				<Grid item>
+					<ResourceAdditionDialog/>
 				</Grid>
 				<Grid item xs>
 					<Grid container alignItems={'center'}>
@@ -95,7 +99,11 @@ export default function ScratchBox(props: ScratchBoxProps) {
 						<Grid item>
 							{
 								props.editingId.length > 0 ?
-									<IconButton onClick={() => {setText(''); setCanCommit(false); props.setEditingId('');}}>
+									<IconButton onClick={() => {
+										setText('');
+										setCanCommit(false);
+										props.setEditingId('');
+									}}>
 										<Clear/>
 									</IconButton> : null
 							}

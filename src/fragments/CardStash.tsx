@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Skeleton, Typography } from '@mui/material';
 import { Document } from '../models/Document';
-import SummaryCard from './SummaryCard';
+import SummaryCard from './components/SummaryCard';
 import { Masonry } from '@mui/lab';
 import { useTranslation } from 'react-i18next';
 
@@ -15,7 +15,7 @@ export interface CardStashProps {
 }
 
 export default function CardStash(props: CardStashProps) {
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 
 	if (props.isBusy) {
 		return <>
@@ -35,7 +35,9 @@ export default function CardStash(props: CardStashProps) {
 		} else {
 			return <>
 				<Masonry columns={3} spacing={1}>
-					{props.documents.map(doc => <SummaryCard key={doc._id} document={doc} tryLoadEntry={props.setEditorId} tryDeleteEntry={props.deleteDocument} />)}
+					{props.documents.map(doc => <SummaryCard key={doc._id} document={doc}
+															 tryLoadEntry={props.setEditorId}
+															 tryDeleteEntry={props.deleteDocument}/>)}
 				</Masonry>
 			</>;
 		}

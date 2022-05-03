@@ -21,7 +21,6 @@ export default function LandingPage() {
 				} else {
 					DocumentStashInstance.getRecentDocuments().then(xs => {
 						setDocuments(xs);
-						console.log(xs);
 					})
 						.catch(console.log)
 						.finally(() => {
@@ -56,7 +55,8 @@ export default function LandingPage() {
 					<ScratchBox editingId={editingId} setEditingId={setEditingId}/>
 				</Grid>
 				<Grid item>
-					<CardStash isBusy={isBusy} isEmpty={isEmpty} documents={documents} setEditorId={setEditingId} deleteDocument={deleteDocument}/>
+					<CardStash isBusy={isBusy} isEmpty={isEmpty} documents={documents} setEditorId={setEditingId}
+							   deleteDocument={deleteDocument}/>
 				</Grid>
 			</Grid>
 		</Container></>);

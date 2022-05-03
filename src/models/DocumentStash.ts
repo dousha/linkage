@@ -37,7 +37,6 @@ class DocumentStash {
 
 	public setLocalSettings(xs: LocalSettings) {
 		if (typeof localStorage !== 'undefined') {
-			console.log(xs);
 			localStorage.setItem('localSettings', JSON.stringify(xs));
 		} else {
 			throw new Error('LocalStorage not present!');
@@ -74,8 +73,8 @@ class DocumentStash {
 	public isDatabaseEmpty(): Promise<boolean> {
 		return this.db.find({
 			selector: {
-				type: {'$ne': '__relation'}
-			}
+				type: {'$ne': '__relation'},
+			},
 		}).then(info => info.docs.length === 0);
 	}
 
@@ -91,9 +90,8 @@ class DocumentStash {
 		const docs = await this.db.allDocs<Document>({
 			limit: 30,
 			include_docs: true,
-			attachments: true
+			attachments: true,
 		});
-		console.log(docs);
 		return docs.rows.map(x => x.doc)
 			.filter(x => x && 'type' in x && x.type !== '__relation')
 			.map(x => x as Document);
@@ -113,13 +111,13 @@ class DocumentStash {
 	public async init() {
 		await this.db.createIndex({
 			index: {
-				fields: ['type']
-			}
+				fields: ['type'],
+			},
 		});
 		await this.db.createIndex({
 			index: {
-				fields: ['creationTime', 'updateTime']
-			}
+				fields: ['creationTime', 'updateTime'],
+			},
 		});
 	}
 

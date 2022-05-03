@@ -1,12 +1,14 @@
 import React from 'react';
 import {
 	Button,
-	Container, FormControlLabel,
+	Container,
+	FormControlLabel,
 	FormGroup,
 	Grid,
 	IconButton,
 	Modal,
-	Paper, Switch,
+	Paper,
+	Switch,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -32,7 +34,7 @@ export default function SettingsDialog() {
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const saveSettings = (popup: {notify: (xs: string) => void}) => {
+	const saveSettings = (popup: { notify: (xs: string) => void }) => {
 		DocumentStashInstance.setLocalSettings({
 			sync: isEnabled,
 			secure: isSecure,
@@ -44,7 +46,7 @@ export default function SettingsDialog() {
 		handleClose();
 	};
 
-	const { t } = useTranslation();
+	const {t} = useTranslation();
 
 	return (<>
 		<IconButton onClick={handleOpen} edge={'end'} size={'large'} color={'inherit'} aria-label={'settings'}>
@@ -68,7 +70,9 @@ export default function SettingsDialog() {
 						</Grid>
 						<Grid item>
 							<FormGroup>
-								<FormControlLabel control={<Switch disabled={!isEnabled} checked={isSecure} onChange={e => setSecure(e.target.checked)} />} label={t('settingDialogTextSecureConnection')} />
+								<FormControlLabel control={<Switch disabled={!isEnabled} checked={isSecure}
+																   onChange={e => setSecure(e.target.checked)}/>}
+												  label={t('settingDialogTextSecureConnection')}/>
 							</FormGroup>
 						</Grid>
 						<Grid item>
@@ -77,11 +81,13 @@ export default function SettingsDialog() {
 									   onChange={e => setRemote(e.target.value)} disabled={!isEnabled} fullWidth/>
 						</Grid>
 						<Grid item>
-							<TextField id={'input-username'} label={t('settingDialogLabelUsername')} disabled={!isEnabled} value={username}
+							<TextField id={'input-username'} label={t('settingDialogLabelUsername')}
+									   disabled={!isEnabled} value={username}
 									   onChange={e => setUsername(e.target.value)} fullWidth/>
 						</Grid>
 						<Grid item>
-							<TextField id={'input-password'} label={t('settingDialogLabelPassword')} type={'password'} disabled={!isEnabled}
+							<TextField id={'input-password'} label={t('settingDialogLabelPassword')} type={'password'}
+									   disabled={!isEnabled}
 									   value={password} onChange={e => setPassword(e.target.value)} fullWidth/>
 						</Grid>
 						<Grid item>
